@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: jceco-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/climapulse?currentSchema=climapulse,public
+    username: climapulse
+    password: climapulse
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: climapulse
+
+  flyway:
+    enabled: true
+    default-schema: public
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2s
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: jceco-api
+      auto-offset-reset: earliest
+    producer:
+      acks: all
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 8080
