@@ -1,4 +1,4 @@
-package com.climapulse.jceco.collector.inpe;
+package com.climapulse.jceco.integration.inpe;
 
 import com.climapulse.jceco.shared.exception.InpeCsvParsingException;
 import org.junit.jupiter.api.Test;
