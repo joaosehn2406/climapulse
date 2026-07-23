@@ -1,8 +1,11 @@
 package com.climapulse.jceco.integration.inpe;
 
+import org.springframework.stereotype.Service;
+
 import java.io.StringReader;
 import java.util.List;
 
+@Service
 public class InpeHotspotService {
 
     private final InpeHotspotCsvParser inpeHotspotCsvParser;

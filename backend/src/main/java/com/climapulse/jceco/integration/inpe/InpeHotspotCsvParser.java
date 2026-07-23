@@ -3,6 +3,7 @@ package com.climapulse.jceco.integration.inpe;
 import com.climapulse.jceco.shared.exception.InpeCsvParsingException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class InpeHotspotCsvParser {
 
     private static final Set<String> REQUIRED_HEADERS = Set.of(
