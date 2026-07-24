@@ -12,14 +12,18 @@ import java.time.Instant;
 class InpeImportEntity {
 
     @Id
-    @Column(length = 80)
+    @Column(length = 80, nullable = false)
     private String filename;
 
-    @Column(name = "imported_at", nullable = false)
+    @Column(
+            name = "imported_at",
+            nullable = false,
+            insertable = false,
+            updatable = false
+    )
     private Instant importedAt;
 
-    InpeImportEntity(String filename, Instant importedAt) {
+    InpeImportEntity(String filename) {
         this.filename = filename;
-        this.importedAt = importedAt;
     }
 }

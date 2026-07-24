@@ -2,25 +2,25 @@ package com.climapulse.jceco.integration.inpe;
 
 import org.springframework.stereotype.Service;
 
-import java.io.StringReader;
-import java.util.List;
-
 @Service
 public class InpeHotspotService {
 
-    private final InpeHotspotCsvParser inpeHotspotCsvParser;
-    private final InpeHotspotCsvClient inpeHotspotCsvClient;
+    private final InpeHotspotImporter importer;
+    private final InpeHotspotCsvClient csvClient;
 
-    public InpeHotspotService(InpeHotspotCsvParser inpeHotspotCsvParser, InpeHotspotCsvClient inpeHotspotCsvClient) {
-        this.inpeHotspotCsvParser = inpeHotspotCsvParser;
-        this.inpeHotspotCsvClient = inpeHotspotCsvClient;
+    public InpeHotspotService(
+            InpeHotspotImporter importer,
+            InpeHotspotCsvClient csvClient
+    ) {
+        this.importer = importer;
+        this.csvClient = csvClient;
     }
 
-    public List<InpeHotspot> importRecentHotspots() {
-        var csvFiles = inpeHotspotCsvClient.fetchRecentCsvs();
+    public void importRecentHotspots() {
+        var csvFiles = csvClient.fetchRecentCsvs();
 
-        return csvFiles.stream()
-                .flatMap(csvFile -> inpeHotspotCsvParser.parse(new StringReader(csvFile.content())).stream())
-                .toList();
+        for (var csvFile : csvFiles) {
+            importer.importFile(csvFile);
+        }
     }
 }

@@ -1,10 +1,11 @@
 package com.climapulse.jceco.integration.inpe;
 
-import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.StringReader;
-import java.time.Instant;
 
+@Service
 public class InpeHotspotImporter {
 
     private final InpeHotspotCsvParser parser;
@@ -22,9 +23,9 @@ public class InpeHotspotImporter {
     }
 
     @Transactional
-    public boolean importFile(InpeCsvFile file) {
+    public void importFile(InpeCsvFile file) {
         if (inpeImportRepository.existsById(file.filename())) {
-            return false;
+            return;
         }
 
         var hotspots = parser.parse(
@@ -32,7 +33,7 @@ public class InpeHotspotImporter {
         );
 
         inpeImportRepository.saveAndFlush(
-                new InpeImportEntity(file.filename(), Instant.now())
+                new InpeImportEntity(file.filename())
         );
 
         var hotspotEntities = hotspots.stream()
@@ -43,7 +44,5 @@ public class InpeHotspotImporter {
                 .toList();
 
         hotspotRepository.saveAll(hotspotEntities);
-
-        return true;
     }
 }
